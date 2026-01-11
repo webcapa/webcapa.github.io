@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Physics Solver</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <h1>Physics Solver</h1>
+      <p>Paste a problem statement and compute the result.</p>
+    </div>
+
+    <div class="card">
+      <label for="algorithm">Algorithm</label>
+      <select id="algorithm"></select>
+
+      <label for="textInput">Problem Text</label>
+      <textarea
+        id="textInput"
+        placeholder="Paste the physics problem here..."></textarea>
+
+      <button id="run">Compute</button>
+    </div>
+
+    <div class="card output-card">
+      <h2>Result</h2>
+      <pre id="output" class="output"></pre>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
