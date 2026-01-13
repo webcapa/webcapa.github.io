@@ -2,11 +2,6 @@
 const API = "https://webcapaapi.azurewebsites.net/api";
 let algorithms = {};
 
-function extractNumbers(text) {
-  const regex = /(?<![\w.])[-+]?\d*\.?\d+(?!\w)/g;
-  return text.match(regex)?.map(Number) || [];
-}
-
 async function loadAlgorithms() {
   const res = await fetch(`${API}/algorithms`);
   algorithms = await res.json();
@@ -24,19 +19,12 @@ async function computeFromText() {
   const algorithm = document.getElementById("algorithm").value;
   const text = document.getElementById("textInput").value;
 
-  const values = extractNumbers(text);
-  const paramNames = algorithms[algorithm].params;
-
-  const params = {};
-  paramNames.forEach((name, i) => {
-    params[name] = values[i];
-  });
-  console.log(params)
+  console.log(JSON.stringify({ algorithm, text }));
 
   const res = await fetch(`${API}/compute`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ algorithm, params })
+    body: JSON.stringify({ algorithm, text })
   });
 
   if (!res.ok) {
@@ -52,7 +40,9 @@ document.getElementById("run").addEventListener("click", async () => {
 
   try {
     const res = await computeFromText();
-    output.textContent = JSON.stringify(res.result, null, 2);
+    output.textContent = res.answers
+                        .map((val, i) => `${val} ${res.units[i]}`)
+                        .join("\n");
   } catch (err) {
     console.log(err.message);
     output.textContent = "Something Went Wrong, Try Again";
