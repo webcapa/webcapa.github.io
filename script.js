@@ -52,7 +52,7 @@ document.getElementById("run").addEventListener("click", async () => {
 
   try {
     const res = await computeFromText();
-    output.textContent = String(res.result)
+    output.textContent = JSON.stringify(res.result, null, 2);
   } catch (err) {
     console.log(err.message)
     output.textContent = "Something Went Wrong, Try Again";
