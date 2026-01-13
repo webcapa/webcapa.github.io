@@ -51,10 +51,11 @@ document.getElementById("run").addEventListener("click", async () => {
   output.textContent = "Computing...";
 
   try {
-    const result = await computeFromText();
-    output.textContent = JSON.stringify(result, null, 2);
+    const res = await computeFromText();
+    output.textContent = String(res.result)
   } catch (err) {
-    output.textContent = err.message;
+    console.log(err.message)
+    output.textContent = "Something Went Wrong, Try Again";
   }
 });
 
