@@ -31,6 +31,7 @@ async function computeFromText() {
   paramNames.forEach((name, i) => {
     params[name] = values[i];
   });
+  console.log(params)
 
   const res = await fetch(`${API}/compute`, {
     method: "POST",
