@@ -16,7 +16,6 @@
 
   --accent: #22d3ee;
   --accent-hover: #67e8f9;
-  --highlight: #facc15;
 
   --border-radius: 10px;
 }
@@ -189,3 +188,6 @@ pre.output {
   100% { opacity: 1; transform: translateY(0); }
 }
 
+.line-break-css {
+  white-space: pre-line; /* This makes the newlines in the HTML source render as line breaks */
+}
