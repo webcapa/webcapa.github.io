@@ -6,16 +6,22 @@ async function loadAlgorithms() {
   const res = await fetch(`${API}/algorithms`);
   algorithms = await res.json();
 
-  const select = document.getElementById("algorithm");
+  const selectAssignment = document.getElementById("assignment");
+  const option = document.createElement("option");
+  option.value = 1;
+  option.textContent = "Assignment 1";
+  selectAssignment.appendChild(option);
+
+  const selectAlgorithm = document.getElementById("algorithm");
   for (const key in algorithms) {
     const option = document.createElement("option");
     option.value = key;
     option.textContent = algorithms[key].label;
-    select.appendChild(option);
+    selectAlgorithm.appendChild(option);
   }
 }
 
-async function computeFromText() {
+async function fetchAnswer() {
   const algorithm = document.getElementById("algorithm").value;
   const text = document.getElementById("textInput").value;
 
@@ -37,10 +43,11 @@ async function computeFromText() {
 document.getElementById("run").addEventListener("click", async () => {
   const output = document.getElementById("result");
   const debug = document.getElementById("debug");
+  const debugCard = document.querySelector(".debug-card")
   const historyEl = document.getElementById("history");
 
   try {
-    const res = await computeFromText();
+    const res = await fetchAnswer();
     const resultString = res.answers
                         .map((val, i) => `${val} ${res.units[i]}`)
                         .join("\n");
@@ -52,11 +59,13 @@ document.getElementById("run").addEventListener("click", async () => {
     historyEl.innerHTML = history.join("<br><br>");
 
     debug.textContent = "";
+    debugCard.hidden = true;
 
   } catch (err) {
     console.log(err.message);
     output.textContent = "Something Went Wrong, Try Again";
     debug.textContent = err.message;
+    debugCard.hidden = false;
   }
 
   const cards = document.querySelectorAll(".card-animation");
@@ -74,10 +83,6 @@ document.getElementById("algorithm").addEventListener("change", () => {
   inputCard.classList.remove("context-change");
   void inputCard.offsetWidth; // reflow
   inputCard.classList.add("context-change");
-
-  //const inputArea = document.getElementById("textInput");
-  //inputArea.placeholder = "test";
-
 });
 
 loadAlgorithms();
