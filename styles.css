@@ -24,7 +24,15 @@
 /* ===== PAGE ===== */
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(135deg, #020617, var(--bg-main));
+  background: linear-gradient(
+    135deg,
+    #020617,
+    #0f172a,
+    #020617
+  );
+  background-size: 300% 300%;
+  animation: gradientShift 30s ease infinite;
+
   color: var(--text-main);
   min-height: 100vh;
 
@@ -33,6 +41,27 @@ body {
   align-items: center;
 
   padding: 40px;
+}
+
+/* ===== BACKGROUND NOISE TEXTURE ===== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+
+  opacity: 0.15;
+  z-index: -1;
+  mix-blend-mode: overlay;
+}
+
+/* ===== GRADIENT MOTION ===== */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ===== APP WRAPPER ===== */
@@ -128,8 +157,35 @@ pre.output {
   white-space: pre-wrap;
 }
 
-/* ===== REGEX HIGHLIGHT ===== */
-.highlight {
-  color: var(--highlight);
-  font-weight: 700;
+/* ===== RESULT REVEAL ANIMATION ===== */
+.output-card {
+  opacity: 1;
+  transform: translateY(0);
 }
+
+.output-card.animate {
+  animation: revealResult 1s ease;
+}
+
+@keyframes revealResult {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== ALGORITHM CHANGE FEEDBACK ===== */
+.context-change {
+  animation: contextFade 1s ease;
+}
+
+@keyframes contextFade {
+  0%   { opacity: 1; transform: translateY(0); }
+  40%  { opacity: 0.4; transform: translateY(1px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+

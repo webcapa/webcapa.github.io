@@ -36,7 +36,6 @@ async function computeFromText() {
 
 document.getElementById("run").addEventListener("click", async () => {
   const output = document.getElementById("output");
-  output.textContent = "Computing...";
 
   try {
     const res = await computeFromText();
@@ -47,6 +46,22 @@ document.getElementById("run").addEventListener("click", async () => {
     console.log(err.message);
     output.textContent = "Something Went Wrong, Try Again";
   }
+
+  const card = document.querySelector(".output-card");
+  card.classList.remove("animate");
+  void card.offsetWidth; // force reflow
+  card.classList.add("animate");
+
+});
+
+document.getElementById("algorithm").addEventListener("change", () => {
+  const inputCard = document.querySelector(".card");
+
+  inputCard.classList.remove("context-change");
+  void inputCard.offsetWidth; // reflow
+  inputCard.classList.add("context-change");
 });
 
 loadAlgorithms();
+
+
