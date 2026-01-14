@@ -189,5 +189,5 @@ pre.output {
 }
 
 .line-break-css {
-  white-space: pre-line; /* This makes the newlines in the HTML source render as line breaks */
+  white-space: pre-wrap; /* This makes the newlines in the HTML source render as line breaks */
 }
