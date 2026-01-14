@@ -85,6 +85,11 @@ document.getElementById("algorithm").addEventListener("change", () => {
   inputCard.classList.add("context-change");
 });
 
+document.getElementById("toggleCSS").addEventListener("click", async () => {
+  const sheet = document.querySelector('link[rel="stylesheet"]');
+  sheet.disabled = !sheet.disabled;
+});
+
 loadAlgorithms();
 
 
