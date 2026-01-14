@@ -27,10 +27,12 @@ body {
     135deg,
     #020617,
     #0f172a,
+    #1e3a8a,
+    #0f172a,
     #020617
   );
-  background-size: 300% 300%;
-  animation: gradientShift 20s ease infinite;
+  background-size: 400% 400%;
+  animation: gradientShift 40s ease-in-out infinite;
 
   color: var(--text-main);
   min-height: 100vh;
@@ -57,6 +59,7 @@ body::before {
 }
 
 /* ===== GRADIENT MOTION ===== */
+
 @keyframes gradientShift {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
