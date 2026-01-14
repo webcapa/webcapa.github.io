@@ -47,8 +47,8 @@ document.getElementById("run").addEventListener("click", async () => {
 
     output.textContent = resultString;
 
-    history.push(`${res.label}\n${resultString}`);
-    if (history.length > 5) history.shift();
+    history.unshift(`${res.label}\n${resultString}`);
+    if (history.length > 5) history.pop();
 
     historyEl.textContent = history.join("\n\n");
 
