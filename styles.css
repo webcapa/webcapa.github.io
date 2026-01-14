@@ -177,6 +177,37 @@ pre.output {
   }
 }
 
+/* ===== HISTORY CARD ===== */
+.history-card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+
+  /* Animation defaults (match output-card) */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.history-card.animate {
+  animation: revealResult 1s ease;
+}
+
+.history-card h2 {
+  margin-bottom: 10px;
+  font-size: 1.3rem; /* match output-card */
+}
+
+.history-card pre {
+  background: var(--bg-input);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  min-height: 50px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
 /* ===== ALGORITHM CHANGE FEEDBACK ===== */
 .context-change {
   animation: contextFade 1s ease;
