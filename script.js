@@ -36,7 +36,7 @@ async function computeFromText() {
 }
 
 document.getElementById("run").addEventListener("click", async () => {
-  const output = document.getElementById("output");
+  const output = document.getElementById("result");
   const historyEl = document.getElementById("history");
 
   try {
@@ -57,20 +57,12 @@ document.getElementById("run").addEventListener("click", async () => {
     output.textContent = "Something Went Wrong, Try Again";
   }
 
-  const card = document.querySelector(".output-card");
-  card.classList.remove("animate");
-  void card.offsetWidth; // force reflow
-  card.classList.add("animate");
-
-  const historyCard = document.querySelector(".history-card");
-  historyCard.classList.remove("animate");
-  void historyCard.offsetWidth; // force reflow
-  historyCard.classList.add("animate");
-
-  const debugCard = document.querySelector(".debug-card");
-  debugCard.classList.remove("animate");
-  void debugCard.offsetWidth; // force reflow
-  debugCard.classList.add("animate");
+  const cards = document.querySelectorAll(".card-animation");
+  for (const card of cards) {
+    card.classList.remove("animate");
+    void card.offsetWidth; // force reflow
+    card.classList.add("animate");
+  }
 
 });
 

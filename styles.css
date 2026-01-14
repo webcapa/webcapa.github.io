@@ -92,6 +92,11 @@ body::before {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
+.card h2 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
 /* ===== INPUT ===== */
 label {
   display: block;
@@ -142,11 +147,6 @@ button:hover {
 }
 
 /* ===== OUTPUT ===== */
-.output-card h2 {
-  margin-bottom: 10px;
-  font-size: 1.3rem;
-}
-
 pre.output {
   background: var(--bg-input);
   border-radius: var(--border-radius);
@@ -157,46 +157,14 @@ pre.output {
 }
 
 /* ===== RESULT REVEAL ANIMATION ===== */
-.output-card {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.output-card.animate {
-  animation: revealResult 1s ease;
-}
 
 @keyframes revealResult {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from {opacity: 0; transform: translateY(8px); }
+  to {opacity: 1; transform: translateY(0); }
 }
 
-/* ===== HISTORY CARD ===== */
-
-.history-card.animate {
+.card-animation.animate {
   animation: revealResult 1s ease;
-}
-
-.history-card h2 {
-  margin-bottom: 10px;
-  font-size: 1.3rem; /* match output-card */
-}
-
-/* ===== DEBUG CARD ===== */
-
-.debug-card.animate {
-  animation: revealResult 1s ease;
-}
-
-.debug-card h2 {
-  margin-bottom: 10px;
-  font-size: 1.3rem; /* match output-card */
 }
 
 /* ===== ALGORITHM CHANGE FEEDBACK ===== */
