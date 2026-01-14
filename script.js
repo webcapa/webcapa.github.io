@@ -67,6 +67,11 @@ document.getElementById("run").addEventListener("click", async () => {
   void historyCard.offsetWidth; // force reflow
   historyCard.classList.add("animate");
 
+  const debugCard = document.querySelector(".debug-card");
+  debugCard.classList.remove("animate");
+  void debugCard.offsetWidth; // force reflow
+  debugCard.classList.add("animate");
+
 });
 
 document.getElementById("algorithm").addEventListener("change", () => {

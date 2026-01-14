@@ -30,7 +30,7 @@ body {
     #020617
   );
   background-size: 300% 300%;
-  animation: gradientShift 30s ease infinite;
+  animation: gradientShift 20s ease infinite;
 
   color: var(--text-main);
   min-height: 100vh;
@@ -178,17 +178,6 @@ pre.output {
 }
 
 /* ===== HISTORY CARD ===== */
-.history-card {
-  background: var(--bg-card);
-  border-radius: var(--border-radius);
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-
-  /* Animation defaults (match output-card) */
-  opacity: 1;
-  transform: translateY(0);
-}
 
 .history-card.animate {
   animation: revealResult 1s ease;
@@ -199,13 +188,15 @@ pre.output {
   font-size: 1.3rem; /* match output-card */
 }
 
-.history-card pre {
-  background: var(--bg-input);
-  border-radius: var(--border-radius);
-  padding: 15px;
-  min-height: 50px;
-  line-height: 1.5;
-  white-space: pre-wrap;
+/* ===== DEBUG CARD ===== */
+
+.debug-card.animate {
+  animation: revealResult 1s ease;
+}
+
+.debug-card h2 {
+  margin-bottom: 10px;
+  font-size: 1.3rem; /* match output-card */
 }
 
 /* ===== ALGORITHM CHANGE FEEDBACK ===== */
@@ -215,10 +206,10 @@ pre.output {
 
 @keyframes contextFade {
   0%   { opacity: 1; transform: translateY(0); }
-  40%  { opacity: 0.4; transform: translateY(1px); }
+  40%  { opacity: 1; transform: translateY(5px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
 .line-break-css {
-  white-space: pre-wrap; /* This makes the newlines in the HTML source render as line breaks */
+  white-space: pre-line; /* This makes the newlines in the HTML source render as line breaks */
 }
