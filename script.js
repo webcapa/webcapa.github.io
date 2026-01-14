@@ -1,4 +1,3 @@
-//const API = "http://127.0.0.1:8000";
 const API = "https://webcapaapi.azurewebsites.net/api";
 let algorithms = {};
 let history = [];
@@ -37,6 +36,7 @@ async function computeFromText() {
 
 document.getElementById("run").addEventListener("click", async () => {
   const output = document.getElementById("result");
+  const debug = document.getElementById("debug");
   const historyEl = document.getElementById("history");
 
   try {
@@ -47,14 +47,16 @@ document.getElementById("run").addEventListener("click", async () => {
 
     output.textContent = resultString;
 
-    history.unshift(`${res.label}\n${resultString}`);
+    history.unshift(`<span class="history-subheading">${res.label}</span>\n${resultString}`);
     if (history.length > 5) history.pop();
+    historyEl.innerHTML = history.join("<br><br>");
 
-    historyEl.textContent = history.join("\n\n");
+    debug.textContent = "";
 
   } catch (err) {
     console.log(err.message);
     output.textContent = "Something Went Wrong, Try Again";
+    debug.textContent = err.message;
   }
 
   const cards = document.querySelectorAll(".card-animation");
@@ -67,11 +69,15 @@ document.getElementById("run").addEventListener("click", async () => {
 });
 
 document.getElementById("algorithm").addEventListener("change", () => {
-  const inputCard = document.querySelector(".card");
+  const inputCard = document.querySelector(".input-card");
 
   inputCard.classList.remove("context-change");
   void inputCard.offsetWidth; // reflow
   inputCard.classList.add("context-change");
+
+  //const inputArea = document.getElementById("textInput");
+  //inputArea.placeholder = "test";
+
 });
 
 loadAlgorithms();

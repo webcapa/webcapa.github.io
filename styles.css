@@ -181,3 +181,8 @@ pre.output {
 .line-break-css {
   white-space: pre-line; /* This makes the newlines in the HTML source render as line breaks */
 }
+
+.history-subheading {
+  font-weight: 700;
+  color: var(--accent);
+}
