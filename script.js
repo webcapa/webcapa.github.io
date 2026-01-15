@@ -85,11 +85,108 @@ document.getElementById("algorithm").addEventListener("change", () => {
   inputCard.classList.add("context-change");
 });
 
+//################################################################################################################
+const canvas = document.getElementById("dot-grid");
+
 document.getElementById("toggleCSS").addEventListener("click", async () => {
   const sheet = document.querySelector('link[rel="stylesheet"]');
   sheet.disabled = !sheet.disabled;
+  if (sheet.disabled) {
+    canvas.style.display = "none";
+  } else {
+    canvas.style.display = "flex";
+  }
 });
 
+const ctx = canvas.getContext("2d");
+const spacing = 40;
+const dots = [];
+
+function buildGrid() {
+  dots.length = 0;
+  for (let y = 0; y < window.innerHeight; y += spacing) {
+    for (let x = 0; x < window.innerWidth; x += spacing) {
+      dots.push({
+        ox: x,
+        oy: y,
+        x: x,
+        y: y,
+        vx: 0,
+        vy: 0
+      });
+    }
+  }
+}
+
+function updateDots() {
+  for (const dot of dots) {
+    const dx = dot.x - mouse.x;
+    const dy = dot.y - mouse.y;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+    const influence = Math.max(0, 1 - dist / 500);
+
+    // Mouse repulsion
+    const force = influence * 0.25;
+    dot.vx += (dx / dist) * force;
+    dot.vy += (dy / dist) * force;
+
+    // Spring back to origin
+    dot.vx += (dot.ox - dot.x) * 0.03;
+    dot.vy += (dot.oy - dot.y) * 0.03;
+
+    // Damping
+    dot.vx *= 0.5;
+    dot.vy *= 0.5;
+
+    dot.x += dot.vx;
+    dot.y += dot.vy;
+  }
+}
+
+function drawDots() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (const dot of dots) {
+    const dx = dot.x - mouse.x;
+    const dy = dot.y - mouse.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    const influence = Math.max(0, 1 - dist / 120);
+    const radius = 1.5 + influence * 1.5;
+    const alpha = 0.12 + influence * 0.4;
+
+    ctx.fillStyle = `rgba(34, 211, 238, ${alpha})`;
+    ctx.beginPath();
+    ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  canvas.style.width = `${window.innerWidth}px`;
+  canvas.style.height = `${window.innerHeight}px`;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  buildGrid();
+}
+
+window.addEventListener("resize", resizeCanvas);
+const mouse = { x: 200, y: -200 };
+window.addEventListener("mousemove", (e) => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+function animate() {
+  updateDots();
+  drawDots();
+  requestAnimationFrame(animate);
+}
+
 loadAlgorithms();
-
-
+resizeCanvas();
+animate();
