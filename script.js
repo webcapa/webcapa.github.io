@@ -39,7 +39,9 @@ async function loadAlgorithms(assignNum) {
     for (const [key, value] of Object.entries(algorithms)) {
       const option = document.createElement("option");
       option.value = key;
-      option.textContent = value;
+      let title = value.replaceAll("_", " ");
+      title = title.charAt(0).toUpperCase() + title.slice(1);
+      option.textContent = title;
       selectAlgorithm.appendChild(option);
     }
   } catch (err) {
@@ -108,6 +110,12 @@ document.getElementById("run").addEventListener("click", async () => {
 document.getElementById("assignment").addEventListener("change", () => {
   const assignNum = parseInt(document.getElementById("assignment").value, 10);
   loadAlgorithms(assignNum)
+
+  const inputCard = document.querySelector(".input-card");
+
+  inputCard.classList.remove("context-change");
+  void inputCard.offsetWidth; // reflow
+  inputCard.classList.add("context-change");
 });
 
 document.getElementById("algorithm").addEventListener("change", () => {
