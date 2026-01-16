@@ -14,7 +14,7 @@ async function loadAssignments() {
   }
 }
 
-async function fetchAlgorithms() {
+async function fetchAlgorithms(assignNum) {
   console.log(JSON.stringify({ assignNum }));
 
   const res = await fetch(`${API}/compute`, {
