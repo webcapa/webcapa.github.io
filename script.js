@@ -28,15 +28,17 @@ async function fetchAlgorithms(assignNum) {
 }
 
 async function loadAlgorithms(assignNum) {
-  const res = await fetchAlgorithms(assignNum);
   try {
-    algorithms = await res.json();
+    const algorithms = await fetchAlgorithms(assignNum);
+
+    console.log(algorithms)
 
     const selectAlgorithm = document.getElementById("algorithm");
     selectAlgorithm.length = 0;
-    for (const [key, value] in algorithms) {
+
+    for (const [key, value] of Object.entries(algorithms)) {
       const option = document.createElement("option");
-      option.value = parseInt(key, 10);
+      option.value = key;
       option.textContent = value;
       selectAlgorithm.appendChild(option);
     }
@@ -104,7 +106,7 @@ document.getElementById("run").addEventListener("click", async () => {
 });
 
 document.getElementById("assignment").addEventListener("change", () => {
-  const assignNum = document.getElementById("assignment").value;
+  const assignNum = parseInt(document.getElementById("assignment").value, 10);
   loadAlgorithms(assignNum)
 });
 
