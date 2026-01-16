@@ -1,36 +1,64 @@
 const API = "https://webcapaapi.azurewebsites.net/api";
-let algorithms = {};
 let history = [];
 
-async function loadAlgorithms() {
+async function loadAssignments() {
   const res = await fetch(`${API}/algorithms`);
   algorithms = await res.json();
 
   const selectAssignment = document.getElementById("assignment");
-  const option = document.createElement("option");
-  option.value = 1;
-  option.textContent = "Assignment 1";
-  selectAssignment.appendChild(option);
-
-  const selectAlgorithm = document.getElementById("algorithm");
-  for (const key in algorithms) {
+  for (let i = 0; i<10; i++) {
     const option = document.createElement("option");
-    option.value = key;
-    option.textContent = algorithms[key].label;
-    selectAlgorithm.appendChild(option);
+    option.value = i;
+    option.textContent = `Assignmnent ${i+1}`;
+    selectAssignment.appendChild(option);
   }
 }
 
-async function fetchAnswer() {
-  const algorithm = document.getElementById("algorithm").value;
-  const text = document.getElementById("textInput").value;
-
-  console.log(JSON.stringify({ algorithm, text }));
+async function fetchAlgorithms() {
+  console.log(JSON.stringify({ assignNum }));
 
   const res = await fetch(`${API}/compute`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ algorithm, text })
+    body: JSON.stringify({ assignNum })
+  });
+
+  if (!res.ok) {
+    throw new Error(await res.text());
+  }
+
+  return res.json();
+}
+
+async function loadAlgorithms(assignNum) {
+  const res = await fetchAlgorithms(assignNum);
+  try {
+    algorithms = await res.json();
+
+    const selectAlgorithm = document.getElementById("algorithm");
+    selectAlgorithm.length = 0;
+    for (const [key, value] in algorithms) {
+      const option = document.createElement("option");
+      option.value = key;
+      option.textContent = value;
+      selectAlgorithm.appendChild(option);
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+  
+}
+
+async function fetchAnswer() {
+  const algorithm_id = document.getElementById("algorithm").value;
+  const text = document.getElementById("textInput").value;
+
+  console.log(JSON.stringify({ algorithm_id, text }));
+
+  const res = await fetch(`${API}/compute`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ algorithm_id, text })
   });
 
   if (!res.ok) {
@@ -75,6 +103,11 @@ document.getElementById("run").addEventListener("click", async () => {
     card.classList.add("animate");
   }
 
+});
+
+document.getElementById("assignment").addEventListener("change", () => {
+  const assignNum = document.getElementById("assignment").value;
+  loadAlgorithms(assignNum)
 });
 
 document.getElementById("algorithm").addEventListener("change", () => {
@@ -187,6 +220,7 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-loadAlgorithms();
+loadAssignments();
+loadAlgorithms(0);
 resizeCanvas();
 animate();
