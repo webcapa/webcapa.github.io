@@ -2,9 +2,6 @@ const API = "https://webcapaapi.azurewebsites.net/api";
 let history = [];
 
 async function loadAssignments() {
-  const res = await fetch(`${API}/algorithms`);
-  algorithms = await res.json();
-
   const selectAssignment = document.getElementById("assignment");
   for (let i = 0; i<10; i++) {
     const option = document.createElement("option");
@@ -17,7 +14,7 @@ async function loadAssignments() {
 async function fetchAlgorithms(assignNum) {
   console.log(JSON.stringify({ assignNum }));
 
-  const res = await fetch(`${API}/compute`, {
+  const res = await fetch(`${API}/algorithms`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ assignNum })
@@ -39,7 +36,7 @@ async function loadAlgorithms(assignNum) {
     selectAlgorithm.length = 0;
     for (const [key, value] in algorithms) {
       const option = document.createElement("option");
-      option.value = key;
+      option.value = parseInt(key, 10);
       option.textContent = value;
       selectAlgorithm.appendChild(option);
     }
@@ -50,15 +47,16 @@ async function loadAlgorithms(assignNum) {
 }
 
 async function fetchAnswer() {
-  const algorithm_id = document.getElementById("algorithm").value;
+  const algorithm_num = document.getElementById("algorithm").value;
+  const assignment_num = document.getElementById("assignment").value;
   const text = document.getElementById("textInput").value;
 
-  console.log(JSON.stringify({ algorithm_id, text }));
+  console.log(JSON.stringify({ algorithm_num, assignment_num, text }));
 
   const res = await fetch(`${API}/compute`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ algorithm_id, text })
+    body: JSON.stringify({ algorithm_num, assignment_num, text })
   });
 
   if (!res.ok) {
