@@ -6,7 +6,7 @@ async function loadAssignments() {
   for (let i = 0; i<10; i++) {
     const option = document.createElement("option");
     option.value = i;
-    option.textContent = `Assignmnent ${i+1}`;
+    option.textContent = `Assignment ${i+1}`;
     selectAssignment.appendChild(option);
   }
 }
@@ -40,7 +40,7 @@ async function loadAlgorithms(assignNum) {
       const option = document.createElement("option");
       option.value = key;
       let title = value.replaceAll("_", " ");
-      title = title.charAt(0).toUpperCase() + title.slice(1);
+      title =  `Q${key}: ` + title.charAt(0).toUpperCase() + title.slice(1);
       option.textContent = title;
       selectAlgorithm.appendChild(option);
     }
